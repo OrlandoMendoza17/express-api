@@ -4,7 +4,7 @@
   "main": "index.js",
   "scripts": {
     "start": "nodemon --inspect ./index.js",
-    "build": "nodemon ./index.js"
+    "build": "node ./index.js"
   },
   "engines": {
     "node": "16.x"
