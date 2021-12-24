@@ -1,10 +1,15 @@
 const express = require("express")
+const helmet = require("helmet")
+const cors = require("cors")
+const { logErrors, errorHandler, boomHandler } = require("./middlewares/error.handler")
 const app = express()
 
 const productsRouter = require("./routes/products.router")
 
 const PORT = 3000
 
+app.use(cors())
+app.use(helmet())
 app.use(express.json())
 
 app.use("/products", productsRouter)
@@ -14,6 +19,10 @@ app.get("/", (request, response) => {
     greeting: "hello"
   })
 })
+
+app.use(logErrors)
+app.use(boomHandler)
+app.use(errorHandler)
 
 app.listen(PORT, (error) => {
   if (error)

@@ -1,3 +1,5 @@
+const boom = require("@hapi/boom");
+const faker = require("faker");
 const { getFakeDB, findProduct, findIndex } = require("../utils");
 
 class ProductsServices {
@@ -6,20 +8,35 @@ class ProductsServices {
     this.products = getFakeDB()
   }
 
-  getAll() {
+  async getAll() {
     return this.products;
   }
 
-  findOne(productId) {
+  async create(product){
+    
+    debugger
+    
+    const newProduct = {
+      ...product,
+      id: faker.datatype.uuid(),
+      price: parseInt(product.price, 10),
+    }
+    
+    this.products.push(newProduct)
+    
+    return newProduct;
+  }
+  
+  async findOne(productId) {
     const foundProduct = findProduct(productId, this.products)
     if (foundProduct) {
       return foundProduct;
     }
 
-    return ({ message: `Product "${productId}" doesn't exist` })
+    throw boom.notFound(`Product "${productId}" doesn't exist`)
   }
 
-  updateOne(productId, newProperties) {
+  async updateOne(productId, newProperties) {
     const foundIndex = findIndex(productId, this.products)
     
     if(foundIndex !== -1){
@@ -36,18 +53,18 @@ class ProductsServices {
       return newProduct;
     }
 
-    return ({ message: `Product "${productId}" doesn't exist` })
+    throw boom.notFound(`Product "${productId}" doesn't exist`)
   }
 
-  deleteOne(productId) {
-    const foundIndex = findItemIndex(productId, this.products)
+  async deleteOne(productId) {
+    const foundIndex = findIndex(productId, this.products)
 
     if (foundIndex !== -1) {
       this.products.splice(foundIndex, 1)
       return ({ message: `Product "${productId}" has been deleted` })
     }
 
-    return ({ message: `Product "${productId}" doesn't exist` })
+    throw boom.notFound(`Product "${productId}" doesn't exist`)
   }
 }
 
