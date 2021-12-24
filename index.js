@@ -16,7 +16,7 @@ app.use("/products", productsRouter)
 
 app.get("/", (request, response) => {
   response.json({
-    greeting: "hello"
+    greeting: "hello orlando"
   })
 })
 
