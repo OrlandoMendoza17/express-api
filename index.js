@@ -24,9 +24,6 @@ app.use(logErrors)
 app.use(boomHandler)
 app.use(errorHandler)
 
-app.listen(PORT, (error) => {
-  if (error)
-    console.log(error)
-  else
-    console.log(`Server is running on port ${PORT}`)
+app.listen(PORT, () => {
+  console.log(`Server is running on port ${PORT}`)
 })
