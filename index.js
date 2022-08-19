@@ -20,6 +20,10 @@ app.get("/", (request, response) => {
   })
 })
 
+app.get('/nueva-ruta/otra-ruta', (req, res) => {
+  res.send('Hola, soy una nueva ruta más larga');
+});
+
 app.use(logErrors)
 app.use(boomHandler)
 app.use(errorHandler)
